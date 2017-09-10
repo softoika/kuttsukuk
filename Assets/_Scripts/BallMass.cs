@@ -10,12 +10,6 @@ using UnityEngine.UI;
 public class BallMass : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource expansionAudio = null;
-
-    [SerializeField]
-    private AudioSource breakAudio = null;
-
-    [SerializeField]
     private float[] ballSizes = null;
 
     [SerializeField]
@@ -55,8 +49,7 @@ public class BallMass : MonoBehaviour
         }
     }
 
-    // Use this for initialization
-    void Start()
+    private void Start()
     {
         currentFeed = initFeed;
         BallSizes = new List<float>(ballSizes);
@@ -66,8 +59,7 @@ public class BallMass : MonoBehaviour
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         ballFeedText.text = currentFeed.ToString();
         int nextLevel = currentLevel + 1;
@@ -82,8 +74,7 @@ public class BallMass : MonoBehaviour
     private IEnumerator GrowUp(int nextLevel)
     {
         growing = true;
-        //jointedBlocks.ForEach((b => b.SetActive(false)));
-        PlayBallBig();
+        AudioPlayer.PlayNonOverwrapping(AudioManager.Instance.BallExpansion);
         yield return null;
         while (transform.localScale.x < BallSizes[nextLevel])
         {
@@ -101,19 +92,8 @@ public class BallMass : MonoBehaviour
         currentFeed += feed;
         jointedBlocks.Add(block);
     }
+
     public int GetcurrentLevel() {
         return currentLevel;
-    }
-
-    public void PlayBallBig(){
-        if(expansionAudio != null && !expansionAudio.isPlaying){
-            expansionAudio.Play();
-        }
-    }
-
-    public void PlayBlockBreak(){
-        if(breakAudio != null && !breakAudio.isPlaying){
-            breakAudio.Play();
-        }
     }
 }

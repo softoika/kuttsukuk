@@ -45,8 +45,7 @@ public class BlockDurability : MonoBehaviour
         }
     }
 
-    // Use this for initialization
-    void Start()
+    private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         rig.constraints = RigidbodyConstraints2D.FreezePosition;
@@ -79,7 +78,7 @@ public class BlockDurability : MonoBehaviour
 
     private IEnumerator ChangeColor(){
         texture.material.color = hitColor;
-        ballMass.PlayBlockBreak();
+        AudioPlayer.PlayNonOverwrapping(AudioManager.Instance.BlockBreak);
         yield return new WaitForSeconds(shockInterval);
         texture.material.color = initialColor;
     }
