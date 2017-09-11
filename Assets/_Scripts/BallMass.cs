@@ -7,6 +7,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 壊したブロックの数によってボールが大きくなる
 /// </summary>
+[RequireComponent(typeof(Rigidbody2D))]
 public class BallMass : MonoBehaviour
 {
     [SerializeField]
@@ -29,6 +30,7 @@ public class BallMass : MonoBehaviour
     private List<GameObject> jointedBlocks = new List<GameObject>();
 	private bool growing = false;
 	private CameraFollow cameraFollow = null;
+    private Rigidbody2D rig = null;
 
     public List<float> BallSizes{
         private set;
@@ -57,6 +59,7 @@ public class BallMass : MonoBehaviour
         NecessaryFeeds = new List<int>(necessaryFeeds);
         NecessaryFeeds.Insert(0, 0);
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
+        rig = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -95,5 +98,10 @@ public class BallMass : MonoBehaviour
 
     public int GetcurrentLevel() {
         return currentLevel;
+    }
+
+    public void AddMass(float mass)
+    {
+        rig.mass += mass;
     }
 }

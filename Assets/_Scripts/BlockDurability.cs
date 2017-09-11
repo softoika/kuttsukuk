@@ -15,6 +15,12 @@ public class BlockDurability : MonoBehaviour
     private int durability = 10;
 
     [SerializeField]
+    private float initialMass = 1; // durability > 0のときの重さ
+
+    [SerializeField]
+    private float jointedMass = 0.0001f; // ボールにくっついているときの重さ
+
+    [SerializeField]
     private float scatterImpact = 10;
 
     [SerializeField]
@@ -54,6 +60,7 @@ public class BlockDurability : MonoBehaviour
         initialColor = texture.material.color;
         GameObject ball = GameObject.FindWithTag("Ball");
         ballMass = ball.GetComponent<BallMass>();
+        rig.mass = initialMass;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -61,9 +68,10 @@ public class BlockDurability : MonoBehaviour
         if (collision.gameObject.tag == "Ball" 
             || collision.gameObject.tag == "BallSatellites")
         {
+            durability -= ballMass.CurrentFeed;
+            AudioPlayer.PlayNonOverwrapping(AudioManager.Instance.BlockBreak);
             if (durability > 0)
             {
-                durability -= ballMass.CurrentFeed;
                 StartCoroutine(ChangeColor());
             }else if(durability <= 0 && joint.connectedBody == null){
                 // ボールにくっつく
@@ -71,6 +79,10 @@ public class BlockDurability : MonoBehaviour
                 rig.constraints = RigidbodyConstraints2D.None;
                 gameObject.tag = "BallSatellites";
                 ballMass.Feed(ballFeed, gameObject);
+                // ブロックの重さを変える
+                rig.mass = jointedMass;
+                // ボールの自体の重さも増やしてバランスを取れるようにする
+                ballMass.AddMass(jointedMass);
             }
         }
 
@@ -78,7 +90,6 @@ public class BlockDurability : MonoBehaviour
 
     private IEnumerator ChangeColor(){
         texture.material.color = hitColor;
-        AudioPlayer.PlayNonOverwrapping(AudioManager.Instance.BlockBreak);
         yield return new WaitForSeconds(shockInterval);
         texture.material.color = initialColor;
     }
