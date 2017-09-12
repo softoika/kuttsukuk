@@ -95,7 +95,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.01
+  m_Mass: 3
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -141,11 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   durability: 200
-  initialMass: 3
-  jointedMass: 0.0001
-  scatterImpact: 0
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   shockInterval: 0.1
+  invisibleTime: 0.4
   ballFeed: 3
 --- !u!255 &255704592893684664
 FixedJoint2D:
@@ -155,12 +153,12 @@ FixedJoint2D:
   m_GameObject: {fileID: 1970642628425120}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 1
+  m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 0}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 18.400002, y: -10.8}
-  m_DampingRatio: 0
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_DampingRatio: 1
   m_Frequency: 0

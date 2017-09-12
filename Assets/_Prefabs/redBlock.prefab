@@ -58,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 7f22e766130b1be4e93ba6a991870fab, type: 2}
+  - {fileID: 2100000, guid: c85e3cacf55a84ef8be7485f068b81b6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,7 +95,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.01
+  m_Mass: 4
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -141,11 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   durability: 400
-  initialMass: 4
-  jointedMass: 0.0001
-  scatterImpact: 0
-  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  hitColor: {r: 1, g: 0.88235295, b: 0, a: 1}
   shockInterval: 0.1
+  invisibleTime: 0.4
   ballFeed: 4
 --- !u!255 &255436479003287782
 FixedJoint2D:
@@ -155,12 +153,12 @@ FixedJoint2D:
   m_GameObject: {fileID: 1107199696179748}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 1
+  m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 0}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
-  m_DampingRatio: 0
+  m_DampingRatio: 1
   m_Frequency: 0
