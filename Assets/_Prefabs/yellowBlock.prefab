@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 255704592893684664}
   - component: {fileID: 114462832229679250}
   m_Layer: 0
-  m_Name: yellowBlock
+  m_Name: YellowBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,8 +39,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1970642628425120}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: -5, z: -4}
-  m_LocalScale: {x: 15, y: 15, z: 1}
+  m_LocalPosition: {x: 18.400002, y: -10.8, z: 0}
+  m_LocalScale: {x: 6, y: 6, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -103,7 +103,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 2
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &61347107926343046
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -140,11 +140,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab8c99acf2834b50866252841392cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  durability: 10
-  scatterImpact: 10
+  durability: 200
+  initialMass: 3
+  jointedMass: 0.0001
+  scatterImpact: 0
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   shockInterval: 0.1
-  ballFeed: 1
+  ballFeed: 3
 --- !u!255 &255704592893684664
 FixedJoint2D:
   m_ObjectHideFlags: 1
@@ -153,12 +155,12 @@ FixedJoint2D:
   m_GameObject: {fileID: 1970642628425120}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 0
+  m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 0}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 26.715057, y: -21.560692}
+  m_ConnectedAnchor: {x: 18.400002, y: -10.8}
   m_DampingRatio: 0
   m_Frequency: 0
