@@ -21,6 +21,9 @@ public class BlockDurability : MonoBehaviour
     private float shockInterval = 0.1f;
 
     [SerializeField]
+    private float invisibleTime = 0.4f;
+
+    [SerializeField]
     private int ballFeed = 1;
 
     private Rigidbody2D rig;
@@ -28,6 +31,7 @@ public class BlockDurability : MonoBehaviour
     private Renderer texture;
     private FixedJoint2D joint;
     private BallMass ballMass;
+    private bool invisible = false;
 
     public int BallFeed
     {
@@ -55,8 +59,9 @@ public class BlockDurability : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ball"
-            || collision.gameObject.tag == "BallSatellites")
+        if (!invisible
+            && (collision.gameObject.tag == "Ball"
+                || collision.gameObject.tag == "BallSatellites"))
         {
 
             if (durability > 0)
@@ -83,8 +88,11 @@ public class BlockDurability : MonoBehaviour
 
     private IEnumerator ChangeColor()
     {
+        invisible = true;
         texture.material.color = hitColor;
         yield return new WaitForSeconds(shockInterval);
         texture.material.color = initialColor;
+        yield return new WaitForSeconds(invisibleTime);
+        invisible = false;
     }
 }
