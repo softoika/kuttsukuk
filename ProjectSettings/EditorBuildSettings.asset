@@ -6,5 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/_Main.unity
+    path: Assets/_Scenes/FGJ.unity
     guid: 9fcaa5e08486d4771badb952d6851f21
+  - enabled: 1
+    path: Assets/_Scenes/Tsukurukee.unity
+    guid: 5b28b110e3abd44cd91085398b67a0b5
