@@ -23,8 +23,13 @@ public class BallMove : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // キーボード操作
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-        rig.velocity = new Vector2(x, y) * power;
+        // 加速度センサーによる操作
+        x += Input.acceleration.x;
+        y += Input.acceleration.y;
+        var dir = new Vector2(x, y).normalized; // 斜め移動の速度が変わらないように正規化
+        rig.velocity = dir * power;
     }
 }
