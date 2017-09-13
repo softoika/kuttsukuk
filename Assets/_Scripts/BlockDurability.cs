@@ -31,7 +31,9 @@ public class BlockDurability : MonoBehaviour
     private Renderer texture;
     private FixedJoint2D joint;
     private BallMass ballMass;
+    private BallSatellites ballSatellites;
     private bool invisible = false;
+    private readonly List<FixedJoint2D> jointedObjects = new List<FixedJoint2D>();
 
     public int BallFeed
     {
@@ -45,6 +47,10 @@ public class BlockDurability : MonoBehaviour
         }
     }
 
+    public List<FixedJoint2D> JointedObjects{
+        get { return jointedObjects; }
+    }
+
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
@@ -55,11 +61,12 @@ public class BlockDurability : MonoBehaviour
         initialColor = texture.material.color;
         GameObject ball = GameObject.FindWithTag("Ball");
         ballMass = ball.GetComponent<BallMass>();
+        ballSatellites = ball.GetComponent<BallSatellites>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!invisible
+        if (!invisible // 無敵時間中は衝突判定を行わない
             && (collision.gameObject.tag == "Ball"
                 || collision.gameObject.tag == "BallSatellites"))
         {
@@ -72,8 +79,15 @@ public class BlockDurability : MonoBehaviour
             }
             else if (durability <= 0 && joint.connectedBody == null)
             {
-                // ボールにくっつく
+                // ボール、もしくはサテライトブロックにくっつく
                 joint.connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
+                // くっつく先がブロックなら、自分をくっつく先に記憶させる
+                if (collision.gameObject.tag == "BallSatellites")
+                {
+                    collision.gameObject.GetComponent<BlockDurability>().MemoryJointedObject(joint);
+                }
+                ballSatellites.Enqueue(gameObject);
+
                 rig.constraints = RigidbodyConstraints2D.None;
                 gameObject.tag = "BallSatellites";
                 ballMass.Feed(ballFeed, gameObject);
@@ -94,5 +108,9 @@ public class BlockDurability : MonoBehaviour
         texture.material.color = initialColor;
         yield return new WaitForSeconds(invisibleTime);
         invisible = false;
+    }
+
+    public void MemoryJointedObject(FixedJoint2D joint){
+        jointedObjects.Add(joint);
     }
 }
