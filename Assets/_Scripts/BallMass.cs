@@ -1,4 +1,4 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -28,27 +28,37 @@ public class BallMass : MonoBehaviour
     private int currentFeed;
     private int currentLevel = 0;
     private List<GameObject> jointedBlocks = new List<GameObject>();
-	private bool growing = false;
-	private CameraFollow cameraFollow = null;
+    private bool growing = false;
+    private CameraFollow cameraFollow = null;
     private Rigidbody2D rig = null;
 
-    public List<float> BallSizes{
+    public List<float> BallSizes
+    {
         private set;
         get;
     }
 
-    public List<int> NecessaryFeeds{
+    public List<int> NecessaryFeeds
+    {
         private set;
         get;
     }
 
-    public int CurrentFeed{
-        get{
+    public int CurrentFeed
+    {
+        get
+        {
             return currentFeed;
         }
-        set{
+        set
+        {
             currentFeed = value;
         }
+    }
+
+    public int CurrentLevel
+    {
+        get { return currentLevel; }
     }
 
     private void Start()
@@ -91,13 +101,10 @@ public class BallMass : MonoBehaviour
         growing = false;
     }
 
-    public void Feed(int feed, GameObject block){
+    public void Feed(int feed, GameObject block)
+    {
         currentFeed += feed;
         jointedBlocks.Add(block);
-    }
-
-    public int GetcurrentLevel() {
-        return currentLevel;
     }
 
     public void AddMass(float mass)
