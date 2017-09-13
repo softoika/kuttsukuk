@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ball
   - BallSatellites
+  - FixedBlock
   layers:
   - Default
   - TransparentFX

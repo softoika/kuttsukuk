@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/FGJ.unity
     guid: 9fcaa5e08486d4771badb952d6851f21
   - enabled: 1

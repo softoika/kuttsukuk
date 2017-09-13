@@ -27,10 +27,10 @@ GameObject:
   - component: {fileID: 114462832229679250}
   m_Layer: 0
   m_Name: YellowBlock
-  m_TagString: Untagged
+  m_TagString: FixedBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 16
   m_IsActive: 1
 --- !u!4 &4316818400551308
 Transform:

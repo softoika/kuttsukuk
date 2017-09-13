@@ -56,6 +56,7 @@ public class BlockDurability : MonoBehaviour
         rig = GetComponent<Rigidbody2D>();
         rig.constraints = RigidbodyConstraints2D.FreezePosition;
         rig.Sleep();
+        rig.simulated = false;
         texture = GetComponent<Renderer>();
         joint = GetComponent<FixedJoint2D>();
         initialColor = texture.material.color;
@@ -63,6 +64,7 @@ public class BlockDurability : MonoBehaviour
         ballMass = ball.GetComponent<BallMass>();
         ballSatellites = ball.GetComponent<BallSatellites>();
     }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -112,5 +114,21 @@ public class BlockDurability : MonoBehaviour
 
     public void MemoryJointedObject(FixedJoint2D joint){
         jointedObjects.Add(joint);
+    }
+
+    private void OnBecameVisible()
+    {
+        rig.simulated = true;
+    }
+    private void OnWillRenderObject()
+    {
+        rig.simulated = true;
+    }
+    private void OnBecameInvisible()
+    {
+        if (gameObject.tag == "FixedBlock")
+        {
+            rig.simulated = false;
+        }
     }
 }
