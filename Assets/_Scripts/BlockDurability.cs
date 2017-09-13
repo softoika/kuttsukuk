@@ -55,7 +55,6 @@ public class BlockDurability : MonoBehaviour
     {
         rig = GetComponent<Rigidbody2D>();
         rig.constraints = RigidbodyConstraints2D.FreezePosition;
-        rig.Sleep();
         rig.simulated = false;
         texture = GetComponent<Renderer>();
         joint = GetComponent<FixedJoint2D>();
@@ -120,10 +119,7 @@ public class BlockDurability : MonoBehaviour
     {
         rig.simulated = true;
     }
-    private void OnWillRenderObject()
-    {
-        rig.simulated = true;
-    }
+
     private void OnBecameInvisible()
     {
         if (gameObject.tag == "FixedBlock")

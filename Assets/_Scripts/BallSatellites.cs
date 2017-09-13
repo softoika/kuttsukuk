@@ -11,13 +11,14 @@ public class BallSatellites : MonoBehaviour
     [SerializeField]
     private int queueLength = 100;
 
-    private readonly static Queue<GameObject> satellites = new Queue<GameObject>();
+    private static Queue<GameObject> satellites = null;
 
     private Rigidbody2D rig = null;
 
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        satellites = new Queue<GameObject>();
     }
 
     public void Enqueue(GameObject block)
