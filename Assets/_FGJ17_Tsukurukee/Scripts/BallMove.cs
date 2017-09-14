@@ -12,12 +12,12 @@ public class BallMove : MonoBehaviour
     [SerializeField]
     private float power = 50;
 
-    private Rigidbody2D rig;
+    private Rigidbody2D _rigidbody = null;
 
     // Use this for initialization
     void Start()
     {
-        rig = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
 
@@ -26,10 +26,10 @@ public class BallMove : MonoBehaviour
         // キーボード操作
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-        // 加速度センサーによる操作
+        // 加速度センサーによる操作(加算することにより両対応)
         x += Input.acceleration.x;
         y += Input.acceleration.y;
         var dir = new Vector2(x, y).normalized; // 斜め移動の速度が変わらないように正規化
-        rig.velocity = dir * power;
+        _rigidbody.velocity = dir * power;
     }
 }

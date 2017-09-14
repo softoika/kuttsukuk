@@ -12,23 +12,23 @@ public class BlockDurability : MonoBehaviour
 {
 
     [SerializeField]
-    private int durability = 10;
+    private int durability = 10; // ブロックのもつ耐久度
 
     [SerializeField]
-    private Color hitColor = Color.red;
+    private Color hitColor = Color.red; // ボールがブロックに当たったときに変わる色
 
     [SerializeField]
-    private float shockInterval = 0.1f;
+    private float shockInterval = 0.1f; // ボールがブロックに当たったとき色が変わる時間(秒)
 
     [SerializeField]
-    private float invisibleTime = 0.4f;
+    private float invisibleTime = 0.4f; // ブロックがダメージを受けて次にダメージを受けるまでの無敵時間(秒)
 
     [SerializeField]
-    private int ballFeed = 1;
+    private int ballFeed = 1; // ブロックがボールにくっついたときにボールに加算されるfeed値(攻撃力)
 
-    private Rigidbody2D rig;
+    private Rigidbody2D _rigidbody;
     private Color initialColor;
-    private Renderer texture;
+    private Renderer _renderer;
     private FixedJoint2D joint;
     private BallMass ballMass;
     private BallSatellites ballSatellites;
@@ -53,12 +53,12 @@ public class BlockDurability : MonoBehaviour
 
     private void Start()
     {
-        rig = GetComponent<Rigidbody2D>();
-        rig.constraints = RigidbodyConstraints2D.FreezePosition;
-        rig.simulated = false;
-        texture = GetComponent<Renderer>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
+        _rigidbody.simulated = false;
+        _renderer = GetComponent<Renderer>();
         joint = GetComponent<FixedJoint2D>();
-        initialColor = texture.material.color;
+        initialColor = _renderer.material.color;
         GameObject ball = GameObject.FindWithTag("Ball");
         ballMass = ball.GetComponent<BallMass>();
         ballSatellites = ball.GetComponent<BallSatellites>();
@@ -88,11 +88,11 @@ public class BlockDurability : MonoBehaviour
                 }
                 ballSatellites.Enqueue(gameObject);
 
-                rig.constraints = RigidbodyConstraints2D.None;
+                _rigidbody.constraints = RigidbodyConstraints2D.None;
                 gameObject.tag = "BallSatellites";
                 ballMass.AddFeed(ballFeed);
                 // ボールの自体の重さも増やしてバランスを取れるようにする
-                ballMass.AddMass(rig.mass);
+                ballMass.AddMass(_rigidbody.mass);
                 // TODO:くっつくとき用のSEに差し替える
                 AudioPlayer.PlayNonOverwrapping(AudioManager.Instance.BlockBreak);
             }
@@ -103,9 +103,9 @@ public class BlockDurability : MonoBehaviour
     private IEnumerator ChangeColor() // 実質無敵時間も兼ねている
     {
         invisible = true;
-        texture.material.color = hitColor;
+        _renderer.material.color = hitColor;
         yield return new WaitForSeconds(shockInterval);
-        texture.material.color = initialColor;
+        _renderer.material.color = initialColor;
         yield return new WaitForSeconds(invisibleTime);
         invisible = false;
     }
@@ -116,14 +116,14 @@ public class BlockDurability : MonoBehaviour
 
     private void OnBecameVisible()
     {
-        rig.simulated = true;
+        _rigidbody.simulated = true;
     }
 
     private void OnBecameInvisible()
     {
         if (gameObject.tag == "FixedBlock")
         {
-            rig.simulated = false;
+            _rigidbody.simulated = false;
         }
     }
 }

@@ -4,6 +4,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// ゲームクリア条件
+/// ボールのレベルが一定に達するとクリアメッセージを出す
+/// </summary>
 public class GameClear : SingletonMonoBehaviour<GameClear>
 {
     [SerializeField]

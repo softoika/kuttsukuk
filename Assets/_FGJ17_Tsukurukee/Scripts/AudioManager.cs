@@ -4,6 +4,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Audio Sourceをこのクラスのフィールドとプロパティに追加して参照するように使う
+/// SingletonMonoBehaviourを継承しているので
+/// AudioManager.Instance.BallExpansion のようにして参照することができる
+/// </summary>
 public class AudioManager : SingletonMonoBehaviour<AudioManager>
 {
     [SerializeField]

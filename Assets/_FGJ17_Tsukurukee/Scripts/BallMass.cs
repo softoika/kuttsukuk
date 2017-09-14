@@ -25,11 +25,11 @@ public class BallMass : MonoBehaviour
     [SerializeField]
     private int initFeed = 5;            // 初期feed数
 
-    private int currentFeed;
+    private int currentFeed = 0;
     private int currentLevel = 0;
     private bool growing = false;
     private CameraFollow cameraFollow = null;
-    private Rigidbody2D rig = null;
+    private Rigidbody2D _rigidbody = null;
 
     public List<float> BallSizes
     {
@@ -72,7 +72,7 @@ public class BallMass : MonoBehaviour
         NecessaryFeeds.Insert(0, 0);
 
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        rig = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -122,6 +122,6 @@ public class BallMass : MonoBehaviour
 
     public void AddMass(float mass)
     {
-        rig.mass += mass;
+        _rigidbody.mass += mass;
     }
 }
