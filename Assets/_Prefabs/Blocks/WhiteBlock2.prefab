@@ -140,10 +140,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab8c99acf2834b50866252841392cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  durability: 3000
+  durability: 3500
   hitColor: {r: 1, g: 0, b: 0, a: 1}
-  shockInterval: 0.2
-  invisibleTime: 0.4
+  shockInterval: 0.1
+  invisibleTime: 0.6
   ballFeed: 10
 --- !u!255 &255488913205821202
 FixedJoint2D:

@@ -35,4 +35,13 @@ public class BallSatellites : MonoBehaviour
         }
         satellites.Enqueue(block);
     }
+
+    public void ResetQueue()
+    {
+        foreach (var block in satellites)
+        {
+            block.SetActive(false);
+        }
+        satellites.Clear();
+    }
 }

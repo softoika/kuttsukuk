@@ -71,7 +71,6 @@ public class BlockDurability : MonoBehaviour
             && (collision.gameObject.tag == "Ball"
                 || collision.gameObject.tag == "BallSatellites"))
         {
-
             if (durability > 0)
             {
                 durability -= ballMass.CurrentFeed;
@@ -91,7 +90,7 @@ public class BlockDurability : MonoBehaviour
 
                 rig.constraints = RigidbodyConstraints2D.None;
                 gameObject.tag = "BallSatellites";
-                ballMass.Feed(ballFeed, gameObject);
+                ballMass.AddFeed(ballFeed);
                 // ボールの自体の重さも増やしてバランスを取れるようにする
                 ballMass.AddMass(rig.mass);
                 // TODO:くっつくとき用のSEに差し替える
@@ -101,7 +100,7 @@ public class BlockDurability : MonoBehaviour
 
     }
 
-    private IEnumerator ChangeColor()
+    private IEnumerator ChangeColor() // 実質無敵時間も兼ねている
     {
         invisible = true;
         texture.material.color = hitColor;

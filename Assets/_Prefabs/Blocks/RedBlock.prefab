@@ -160,5 +160,5 @@ FixedJoint2D:
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
-  m_DampingRatio: 1
+  m_DampingRatio: 0.7
   m_Frequency: 0

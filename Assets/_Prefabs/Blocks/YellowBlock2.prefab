@@ -140,11 +140,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab8c99acf2834b50866252841392cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  durability: 3000
+  durability: 6500
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   shockInterval: 0.1
-  invisibleTime: 0.4
-  ballFeed: 10
+  invisibleTime: 0.7
+  ballFeed: 40
 --- !u!255 &255704592893684664
 FixedJoint2D:
   m_ObjectHideFlags: 1

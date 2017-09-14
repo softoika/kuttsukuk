@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab8c99acf2834b50866252841392cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  durability: 1000
+  durability: 1600
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   shockInterval: 0.1
   invisibleTime: 0.4
@@ -160,5 +160,5 @@ FixedJoint2D:
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
-  m_DampingRatio: 1
+  m_DampingRatio: 0.7
   m_Frequency: 0
