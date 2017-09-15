@@ -103,10 +103,6 @@ public class BlockDurability : MonoBehaviour
                     // 自分の枝の長さにくっつく先のもつ枝の長さを加算する
                     branchLengh += colBlock.BranchLengh;
                 }
-                else
-                {
-
-                }
 				// ボール、もしくはサテライトブロックにくっつく
 				joint.connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
 
@@ -117,8 +113,8 @@ public class BlockDurability : MonoBehaviour
                 ballMass.AddFeed(ballFeed);
                 // ボールの自体の重さも増やしてバランスを取れるようにする
                 ballMass.AddMass(_rigidbody.mass);
-                // TODO:くっつくとき用のSEに差し替える
-                AudioPlayer.PlayNonOverwrapping(AudioManager.Instance.BlockBreak);
+                // くっつくときの音
+                AudioPlayer.PlayNonOverwrapping(AudioManager.Instance.BlockSticking);
             }
         }
 

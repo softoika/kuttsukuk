@@ -17,6 +17,9 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     [SerializeField]
     private AudioSource blockBreak = null;
 
+    [SerializeField]
+    private AudioSource blockSticking = null;
+
     public AudioSource BallExpansion
     {
         get { return ballExpansion; }
@@ -25,5 +28,10 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     public AudioSource BlockBreak
     {
         get { return blockBreak; }
+    }
+
+    public AudioSource BlockSticking
+    {
+        get { return blockSticking; }
     }
 }
