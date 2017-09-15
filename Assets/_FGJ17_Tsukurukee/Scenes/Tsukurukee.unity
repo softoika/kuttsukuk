@@ -59240,7 +59240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b583e06df7fbd4c208de6a7548d2318b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  queueLength: 90
+  maxQueueLength: 300
+  maxBranchLength: 4
 --- !u!114 &2039253579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59256,10 +59257,9 @@ MonoBehaviour:
   - 0.5
   - 1
   - 1.5
+  - 2
   - 3
-  - 6
-  - 8
-  necessaryFeeds: 2000000080000000bc02000080070000d007000000800000
+  necessaryFeeds: 2000000080000000bc02000080070000d0070000
   ballFeedText: {fileID: 1604913808}
   expansionSpeed: 0.1
   initFeed: 5

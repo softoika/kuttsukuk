@@ -27,9 +27,13 @@ public class GameClear : SingletonMonoBehaviour<GameClear>
 	
 	void Update ()
 	{
-        if(ballMass.CurrentLevel >= clearLevel){
+        if (ballMass.CurrentLevel == clearLevel)
+        {
             gameClearText.SetActive(true);
             Timer.Instance.PauseTimer();
+        }
+        else if (ballMass.CurrentLevel == clearLevel + 1){
+            BallSatellites.ResetQueue();
         }
 	}
 }
