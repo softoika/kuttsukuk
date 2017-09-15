@@ -29,11 +29,15 @@ public class BlockDurability : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private Color initialColor;
     private Renderer _renderer;
-    private FixedJoint2D joint;
+    private FixedJoint2D joint = null;
     private BallMass ballMass;
     private BallSatellites ballSatellites;
     private bool invisible = false;
+    // このブロックを参照しているジョイントリスト
     private readonly List<FixedJoint2D> jointedObjects = new List<FixedJoint2D>();
+    // このブロックまでの(ジョイントでつながれたブロックを木とみなした)枝の長さ
+    [SerializeField]
+    private int branchLengh = 1;
 
     public int BallFeed
     {
@@ -49,6 +53,17 @@ public class BlockDurability : MonoBehaviour
 
     public List<FixedJoint2D> JointedObjects{
         get { return jointedObjects; }
+    }
+
+    public int BranchLengh
+    {
+        get { return branchLengh; }
+        set { branchLengh = value; }
+    }
+
+    public FixedJoint2D Joint
+    {
+        get { return joint; }
     }
 
     private void Start()
@@ -77,16 +92,25 @@ public class BlockDurability : MonoBehaviour
                 AudioPlayer.PlayNonOverwrapping(AudioManager.Instance.BlockBreak);
                 StartCoroutine(ChangeColor());
             }
-            else if (durability <= 0 && joint.connectedBody == null)
+            else if (durability <= 0 && joint.connectedBody == null) // 耐久値0以下でまだ何にもくっついていなければ
             {
-                // ボール、もしくはサテライトブロックにくっつく
-                joint.connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
-                // くっつく先がブロックなら、自分をくっつく先に記憶させる
+                // くっつく先がサテライトブロックなら、
                 if (collision.gameObject.tag == "BallSatellites")
                 {
-                    collision.gameObject.GetComponent<BlockDurability>().MemoryJointedObject(joint);
+                    var colBlock = collision.gameObject.GetComponent<BlockDurability>();
+                    // 自分をくっつく先に記憶させる
+                    colBlock.MemoryJointedObject(joint);
+                    // 自分の枝の長さにくっつく先のもつ枝の長さを加算する
+                    branchLengh += colBlock.BranchLengh;
                 }
-                ballSatellites.Enqueue(gameObject);
+                else
+                {
+
+                }
+				// ボール、もしくはサテライトブロックにくっつく
+				joint.connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
+
+                ballSatellites.Enqueue(this);
 
                 _rigidbody.constraints = RigidbodyConstraints2D.None;
                 gameObject.tag = "BallSatellites";
