@@ -21,7 +21,7 @@ public class BlockDurability : MonoBehaviour
     private float shockInterval = 0.1f; // ボールがブロックに当たったとき色が変わる時間(秒)
 
     [SerializeField]
-    private float invisibleTime = 0.4f; // ブロックがダメージを受けて次にダメージを受けるまでの無敵時間(秒)
+    private float invincibleTime = 0.4f; // ブロックがダメージを受けて次にダメージを受けるまでの無敵時間(秒)
 
     [SerializeField]
     private int ballFeed = 1; // ブロックがボールにくっついたときにボールに加算されるfeed値(攻撃力)
@@ -32,11 +32,11 @@ public class BlockDurability : MonoBehaviour
     private FixedJoint2D joint = null;
     private BallMass ballMass;
     private BallSatellites ballSatellites;
-    private bool invisible = false;
+    // ブロックがダメージを受けたら一定時間ダメージを受けない無敵時間の状態を表す
+    private bool invincible = false;
     // このブロックを参照しているジョイントリスト
     private readonly List<FixedJoint2D> jointedObjects = new List<FixedJoint2D>();
     // このブロックまでの(ジョイントでつながれたブロックを木とみなした)枝の長さ
-    [SerializeField]
     private int branchLengh = 1;
 
     public int BallFeed
@@ -79,55 +79,73 @@ public class BlockDurability : MonoBehaviour
         ballSatellites = ball.GetComponent<BallSatellites>();
     }
 
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    /// <summary>
+    /// ボール(もしくはボールの周囲にくっついているブロック[衛星]）に当たると
+    /// 耐久値が0より大きければ耐久値を減らす(ダメージ後一定の無敵時間あり)
+    /// 耐久値が0以下ならボールもしくは衛星にくっつく
+    /// </summary>
+    /// <param name="col">Collision2D</param>
+    private void OnCollisionEnter2D(Collision2D col)
     {
-        if (!invisible // 無敵時間中は衝突判定を行わない
-            && (collision.gameObject.tag == "Ball"
-                || collision.gameObject.tag == "BallSatellites"))
+        if (IsDamageable(col))
         {
             if (durability > 0)
             {
-                durability -= ballMass.CurrentFeed;
                 AudioPlayer.PlayNonOverwrapping(AudioManager.Instance.BlockBreak);
-                StartCoroutine(ChangeColor());
+                ReduceDurability();
             }
-            else if (durability <= 0 && joint.connectedBody == null) // 耐久値0以下でまだ何にもくっついていなければ
+            else if (durability <= 0 && joint.connectedBody == null)
             {
-                // くっつく先がサテライトブロックなら、
-                if (collision.gameObject.tag == "BallSatellites")
-                {
-                    var colBlock = collision.gameObject.GetComponent<BlockDurability>();
-                    // 自分をくっつく先に記憶させる
-                    colBlock.MemoryJointedObject(joint);
-                    // 自分の枝の長さにくっつく先のもつ枝の長さを加算する
-                    branchLengh += colBlock.BranchLengh;
-                }
-				// ボール、もしくはサテライトブロックにくっつく
-				joint.connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
-
-                ballSatellites.Enqueue(this);
-
-                _rigidbody.constraints = RigidbodyConstraints2D.None;
-                gameObject.tag = "BallSatellites";
-                ballMass.AddFeed(ballFeed);
-                // ボールの自体の重さも増やしてバランスを取れるようにする
-                ballMass.AddMass(_rigidbody.mass);
-                // くっつくときの音
                 AudioPlayer.PlayNonOverwrapping(AudioManager.Instance.BlockSticking);
+                Stick(col);
             }
         }
-
     }
 
-    private IEnumerator ChangeColor() // 実質無敵時間も兼ねている
+    private bool IsDamageable(Collision2D col)
     {
-        invisible = true;
+        return !invincible &&
+               (col.gameObject.tag == "Ball" ||
+                col.gameObject.tag == "BallSatellites");
+    }
+
+    private void ReduceDurability()
+    {
+        durability -= ballMass.CurrentFeed;
+        StartCoroutine(ToInvincible());
+    }
+
+    private void Stick(Collision2D col)
+    {
+        _rigidbody.constraints = RigidbodyConstraints2D.None;
+		if (col.gameObject.tag == "BallSatellites")
+		{
+			var colBlock = col.gameObject.GetComponent<BlockDurability>();
+			colBlock.MemoryJointedObject(joint); // 自分をくっつく先に記憶させる
+            branchLengh += colBlock.BranchLengh;  // 自分の枝の長さにくっつく先のもつ枝の長さを加算する
+		}
+		joint.connectedBody = col.gameObject.GetComponent<Rigidbody2D>();
+
+        gameObject.tag = "BallSatellites";
+		ballSatellites.Enqueue(this);
+
+		ballMass.AddFeed(ballFeed);
+		ballMass.AddMass(_rigidbody.mass); // ボールの自体の重さも増やしてバランスを取れるようにする
+	}
+
+    private IEnumerator ToInvincible()
+    {
+		invincible = true;
+        yield return ChangeColor();
+        yield return new WaitForSeconds(invincibleTime - shockInterval); // shockIntervalは無敵時間に含まれるので
+		invincible = false;
+    }
+
+    private IEnumerator ChangeColor() 
+    {
         _renderer.material.color = hitColor;
         yield return new WaitForSeconds(shockInterval);
         _renderer.material.color = initialColor;
-        yield return new WaitForSeconds(invisibleTime);
-        invisible = false;
     }
 
     public void MemoryJointedObject(FixedJoint2D joint){
