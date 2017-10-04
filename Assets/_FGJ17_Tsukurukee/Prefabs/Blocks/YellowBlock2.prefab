@@ -143,8 +143,8 @@ MonoBehaviour:
   durability: 6500
   hitColor: {r: 1, g: 0, b: 0, a: 1}
   shockInterval: 0.1
-  invisibleTime: 0.7
-  ballFeed: 40
+  invincibleTime: 0.4
+  ballFeed: 50
 --- !u!255 &255704592893684664
 FixedJoint2D:
   m_ObjectHideFlags: 1
